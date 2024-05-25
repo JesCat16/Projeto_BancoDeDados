@@ -277,3 +277,7 @@ Values
 /*Após incerir os dados utilize o update para que os créditos no histórico sejam computados e verica se o aluno pode ou não se formar*/
 Update Aluno 
 Set Credito = total from Aluno a Join (Select RA, SUM(Credito_adiquirido) as total from Historico_Aluno Group by RA) tr on a.RA = tr.RA;
+/*saber quais alunos formaram um grupo de TCC e qual professor foi o orientador */
+Select * from Aluno a join TCCs b on (a.TCCId = b.TCCId)
+/*histórico de disciplinas ministradas por qualquer professor, com semestre e ano*/
+Select * from Historico_Professor a join Matriz_Curricular b on (a.MatrizId = b.MatrizId)
