@@ -99,7 +99,7 @@ Credito_adiquirido int default 0
 );
 
 /* Ative os trigers para que a tabela se atualize sozinha, ele são responsaveis pela verificação de que os Alunos passaram na matéria
-e tem créditos suficientes e se o aluno faz parte ou não de um grupo de TCC para ele poder se formar*/
+e tem créditos suficientes e se o aluno faz parte ou não de um grupo de TCC para ele poder se formar. Os ative um de cada vez*/
 
 create trigger atualizaBimestre on Historico_Aluno
  After Insert 
