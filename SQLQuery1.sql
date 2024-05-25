@@ -1,3 +1,4 @@
+/* Criação de Tabelas já em ordem correta de criação*/
 CREATE TABLE Departamentos
 (
 DepartamentoId varchar(20) PRIMARY KEY,
@@ -104,8 +105,8 @@ create trigger atualizaBimestre on Historico_Aluno
  After Insert 
  As
  Begin
-	If exists (Select Nota_Final from Historico_Aluno where Nota_Final > 4.99)
-		UPDATE Historico_Aluno Set Credito_adiquirido = 1 where Nota_Final > 4.99;
+	If exists (Select Nota_Final from Historico_Aluno where Nota_Final > 5)
+		UPDATE Historico_Aluno Set Credito_adiquirido = 1 where Nota_Final > 5;
 	END;
 
 create trigger atualizaFormatura on Aluno
@@ -117,8 +118,7 @@ create trigger atualizaFormatura on Aluno
 		Set Formado = 1 where Credito > 5;
 	END;
 
-Select * from Aluno
-
+/*Incerção de cada item nas tabelas também já em ordem de implementação*/
 Insert into
 Departamentos(DepartamentoId,Departamento)
 Values
@@ -139,8 +139,6 @@ Values
 (89541,'Marcos','Luiz','EM'),
 (85214,'Luiza','Martins','EM'),
 (96574,'Tales','Mille','EE');
-
-
 
 Insert into
 ChefeDepartamento(DepartamentoId,ProfessorId)
@@ -171,7 +169,6 @@ Values
 ('EE-7895','EE','Eletrônica Geral',85236),
 ('CA-8745','CA','Física II',78956),
 ('CA-0230','CA','Estatistica',85632);
-
 
 Insert into
 Matriz_Curricular(MatrizId,CursoId,DiciplinaId,Credito,Bimestre)
@@ -215,8 +212,6 @@ Values
 ('77.889.900-1','Ana','Costa',10,'2001-12-09','876.543.210-98','67.890.123-4',2),
 ('88.990.011-2','Mateus','Lima',85,'2004-06-14','231.947.608-41','78.901.234-5',2),
 ('22.125.004-9','Lucas','Oliveira',20,'2005-10-25','689.524.137-20','89.012.345-6',1);
-
-Select * from Aluno;
 
 Insert into 
 Historico_Aluno(HistoricoAId,MatrizId,RA,Ano,Nota_Final)
