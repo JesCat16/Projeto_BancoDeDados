@@ -97,6 +97,8 @@ Nota_Final float,
 Credito_adiquirido int default 0
 );
 
+/* Ative os trigers para que a tabela se atualize sozinha, ele s√£o responsaveis pela verifica√ß√£o de que os Alunos passaram na mat√©ria
+e tem cr√©ditos suficientes e se o aluno faz parte ou n√£o de um grupo de TCC para ele poder se formar*/
 
 create trigger atualizaBimestre on Historico_Aluno
  After Insert 
@@ -105,9 +107,6 @@ create trigger atualizaBimestre on Historico_Aluno
 	If exists (Select Nota_Final from Historico_Aluno where Nota_Final > 4.99)
 		UPDATE Historico_Aluno Set Credito_adiquirido = 1 where Nota_Final > 4.99;
 	END;
-
-Update Aluno 
-Set Credito = total from Aluno a Join (Select RA, SUM(Credito_adiquirido) as total from Historico_Aluno Group by RA) tr on a.RA = tr.RA;
 
 create trigger atualizaFormatura on Aluno
  After Update
@@ -123,10 +122,10 @@ Select * from Aluno
 Insert into
 Departamentos(DepartamentoId,Departamento)
 Values
-('CC','CiÍncia da ComputaÁ„o'),
-('EE','Engenharia ElÈtrica'),
-('EM','Engenharia Mec‚nica'),
-('CA','Matem·tica e FÌsica');
+('CC','Ci√™ncia da Computa√ß√£o'),
+('EE','Engenharia El√©trica'),
+('EM','Engenharia Mec√¢nica'),
+('CA','Matem√°tica e F√≠sica');
 
 Insert into
 Professores(ProfessorId,Nome,Sobrenome,DepartamentoId)
@@ -154,23 +153,23 @@ Values
 Insert into
 Cursos(CursoId,Curso,DepartamentoId,ProfessorId)
 Values
-(20,'CiÍncia da ComputaÁ„o','CC',12346),
-(52,'CiÍncia de Dados e InteligÍncia Artificial','CC',85236),
-(65,'Engenharia de RobÙs','EE',96574),
-(85,'Engenharia Mec‚nica','EM',85214),
-(10,'Engenharia ElÈtrica','EE',63524);
+(20,'Ci√™ncia da Computa√ß√£o','CC',12346),
+(52,'Ci√™ncia de Dados e Intelig√™ncia Artificial','CC',85236),
+(65,'Engenharia de Rob√¥s','EE',96574),
+(85,'Engenharia Mec√¢nica','EM',85214),
+(10,'Engenharia El√©trica','EE',63524);
 
 Insert into
 Diciplina(DiciplinaId,DepartamentoId,Nome_Diciplina,ProfessorId)
 Values
 ('CC-1234','CC','Banco de Dados',93662),
-('EE-5681','EE','InstalaÁıes ElÈtricas Industriais',63524),
+('EE-5681','EE','Instala√ß√µes El√©tricas Industriais',63524),
 ('CC-7852','CC','Linguagens Formais e Autonomos',12346),
 ('CC-7895','CC','Desenvolvimento de Algoritmos',85236),
-('EM-7895','EM','Mec‚nica Geral',89541),
-('EM-7899','EM','Engenharia Mec‚nica e os Grandes Desafios Globais',85214),
-('EE-7895','EE','EletrÙnica Geral',85236),
-('CA-8745','CA','FÌsica II',78956),
+('EM-7895','EM','Mec√¢nica Geral',89541),
+('EM-7899','EM','Engenharia Mec√¢nica e os Grandes Desafios Globais',85214),
+('EE-7895','EE','Eletr√¥nica Geral',85236),
+('CA-8745','CA','F√≠sica II',78956),
 ('CA-0230','CA','Estatistica',85632);
 
 
@@ -196,6 +195,14 @@ Values
 (2,12346,8,2023),
 (3,78956,10,2022),
 (4,85236,7,2024);
+
+Insert into
+TCCs(TCCId, ProfessorId,Titulo,Descricao)
+Values
+(1,12346,'Impacto da Intelig√™ncia Artificial na Educa√ß√£o Infantil','Impacto da Intelig√™ncia Artificial na Educa√ß√£o Infantil'),
+(2,89541,'An√°lise da Sustentabilidade Ambiental em Empresas de Tecnologia','Neste estudo, analisamos as pr√°ticas de sustentabilidade ambiental adotadas por empresas de tecnologia, examinando seus impactos no meio ambiente e a efic√°cia de suas estrat√©gias de mitiga√ß√£o.'),
+(3,93662,'Tecnologias Emergentes e o Futuro do Trabalho','Neste trabalho, exploramos o impacto das tecnologias emergentes, como intelig√™ncia artificial e automa√ß√£o, no futuro do trabalho, investigando as mudan√ßas esperadas no mercado de trabalho e as habilidades necess√°rias para se adaptar a essa nova realidade.'),
+(4,12346,'Pol√≠ticas de Inclus√£o Digital em Pa√≠ses em Desenvolvimento','Esta pesquisa analisa as pol√≠ticas de inclus√£o digital adotadas por pa√≠ses em desenvolvimento, investigando suas iniciativas para promover o acesso √† tecnologia e reduzir a divis√£o digital dentro de suas sociedades.');
 
 Insert into 
 Aluno(RA,Nome,Sobrenome,CursoId,Data_de_Nacimento,CPF,RG,TCCId)
@@ -272,10 +279,6 @@ Historico_Aluno(HistoricoAId,MatrizId,RA,Ano,Nota_Final)
 Values
 (15,8,'22.125.004-9',2024,9);
 
-Insert into
-TCCs(TCCId, ProfessorId,Titulo,Descricao)
-Values
-(1,12346,'Impacto da InteligÍncia Artificial na EducaÁ„o Infantil','Impacto da InteligÍncia Artificial na EducaÁ„o Infantil'),
-(2,89541,'An·lise da Sustentabilidade Ambiental em Empresas de Tecnologia','Neste estudo, analisamos as pr·ticas de sustentabilidade ambiental adotadas por empresas de tecnologia, examinando seus impactos no meio ambiente e a efic·cia de suas estratÈgias de mitigaÁ„o.'),
-(3,93662,'Tecnologias Emergentes e o Futuro do Trabalho','Neste trabalho, exploramos o impacto das tecnologias emergentes, como inteligÍncia artificial e automaÁ„o, no futuro do trabalho, investigando as mudanÁas esperadas no mercado de trabalho e as habilidades necess·rias para se adaptar a essa nova realidade.'),
-(4,12346,'PolÌticas de Inclus„o Digital em PaÌses em Desenvolvimento','Esta pesquisa analisa as polÌticas de inclus„o digital adotadas por paÌses em desenvolvimento, investigando suas iniciativas para promover o acesso ‡ tecnologia e reduzir a divis„o digital dentro de suas sociedades.');
+/*Ap√≥s incerir os dados utilize o update para que os cr√©ditos no hist√≥rico sejam computados e verica se o aluno pode ou n√£o se formar*/
+Update Aluno 
+Set Credito = total from Aluno a Join (Select RA, SUM(Credito_adiquirido) as total from Historico_Aluno Group by RA) tr on a.RA = tr.RA;
